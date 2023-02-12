@@ -1,0 +1,299 @@
+//SAYAN SEN SHARMA
+//MSC DATA SCIENCE
+//ADDITION AND MULTIPLICATION OF TWO POLYNOMIAL FUNCTION
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+	{
+	int data,exponent;
+	struct node*next;
+    };
+    //display
+void display(struct node* head)
+{
+	struct node*temp;
+	if(head==NULL)
+	{
+	 printf("no polynomial");
+	}
+	else
+	{
+	temp=head;
+	while(temp!=NULL)
+	{
+		printf("%dx^%d",temp->data,temp->exponent);
+		temp=temp->next;
+		if(temp!=NULL)
+		{
+			printf("+");
+		}
+		else
+		{
+			printf("\n......................................................\n");
+		}
+	}
+}
+}
+// creat a polynomial function
+   struct node* createapoly(struct node*head)
+{
+    struct node*newnode,*temp;
+    int choice=1;
+	while(choice)
+	{
+	newnode=(struct node*) malloc (sizeof(struct node));
+    printf("enter data ");
+    scanf("%d",&newnode->data);
+    printf("enter the exponent ");
+    scanf("%d",&newnode->exponent);
+    newnode->next=NULL;
+    if(head==NULL)
+	{
+		head=temp=newnode;
+	}
+	else
+	{
+		temp->next=newnode;
+		temp=newnode;
+    }
+	printf("do you want to continue((0,1?))press'1'for yes and '0'for no ");
+	scanf("%d",&choice);
+	while (choice!=0&&choice!=1)
+	{
+		printf("insufficient data");
+	}
+}
+	return head;
+}
+//sorting
+struct node* sort(struct node*head)
+{
+struct node *prenode,*nextnode;
+int temp;
+prenode=head;
+while(prenode->next!=NULL)
+{
+	nextnode=prenode->next;
+	while(nextnode!=NULL)
+	{
+		if(prenode->exponent<nextnode->exponent)
+		{
+			temp=prenode->data;
+			prenode->data=nextnode->data;
+			nextnode->data=temp;
+		}
+		nextnode=nextnode->next;
+	}
+	prenode=prenode->next;
+}
+prenode=head;
+while(prenode->next!=NULL)
+{
+	nextnode=prenode->next;
+	while(nextnode!=NULL)
+	{
+		if(prenode->exponent<nextnode->exponent)
+		{
+			temp=prenode->exponent;
+			prenode->exponent=nextnode->exponent;
+			nextnode->exponent=temp;
+		}
+		nextnode=nextnode->next;
+	}
+	prenode=prenode->next;
+}
+return head;
+}
+//adding
+struct node* add(struct node* head1,struct node* head2)
+{
+	struct node *newnode,*ptr1,*ptr2,*temp;
+	ptr1=head1;
+	ptr2=head2;
+	struct node *head3=NULL;
+	while(ptr1!=NULL&&ptr2!=NULL)
+	{
+		newnode=(struct node*)malloc(sizeof(struct node));
+		if(ptr1->exponent==ptr2->exponent)
+		{
+			newnode->data=ptr1->data+ptr2->data;
+			newnode->exponent=ptr1->exponent;
+			newnode->next=NULL;
+			ptr1=ptr1->next;
+			ptr2=ptr2->next;
+		}
+		else if(ptr1->exponent>ptr2->exponent)
+		{
+			newnode->data=ptr1->data;
+			newnode->exponent=ptr1->exponent;
+			newnode->next=NULL;
+			ptr1=ptr1->next;
+		}
+		else
+		{
+			newnode->data=ptr2->data;
+			newnode->exponent=ptr2->exponent;
+			newnode->next=NULL;
+			ptr2=ptr2->next;
+		}
+		if(head3==NULL)
+	{
+		head3=newnode;
+		temp=newnode;
+	}
+	else
+	{
+		temp->next=newnode;
+		temp=newnode;
+    }	
+	}
+	while(ptr1!=NULL)
+	{
+		newnode=(struct node*)malloc(sizeof(struct node));
+		newnode->data=ptr1->data;
+		newnode->exponent=ptr1->exponent;
+		newnode->next=NULL;
+		if(head3==NULL)
+	{
+		head3=newnode;
+		temp=newnode;
+	}
+	else
+	{
+		temp->next=newnode;
+		temp=newnode;
+    }
+	ptr1=ptr1->next;
+}
+    while(ptr2!=NULL)
+	{
+		newnode=(struct node*)malloc(sizeof(struct node));
+		newnode->data=ptr2->data;
+		newnode->exponent=ptr2->exponent;
+		newnode->next=NULL;
+		if(head3==NULL)
+	{
+		head3=newnode;
+		temp=newnode;
+	}
+	else
+	{
+		temp->next=newnode;
+		temp=newnode;
+    }
+	ptr2=ptr2->next;
+	}
+	return head3;
+}
+//polynomial multiplication
+struct node* multi(struct node*head4,struct node*head5)
+{
+struct node *ptr1,*ptr2,*newnode,*temp,*temp1;
+ptr1=head4;
+struct node*head3=NULL;
+while(ptr1!=NULL)
+{
+    ptr2=head5;
+	while(ptr2!=NULL)
+	{
+		newnode=(struct node*)malloc(sizeof(struct node));
+		newnode->data=ptr1->data*ptr2->data;
+		newnode->exponent=ptr1->exponent+ptr2->exponent;
+		newnode->next=NULL;
+		if(head3==NULL)
+	{
+		head3=newnode;
+		temp=newnode;
+	}
+	else
+	{
+		temp1=head3;
+		while(temp1!=NULL)
+		{
+			if(temp1->exponent==newnode->exponent)
+			{
+				temp1->data=temp1->data+newnode->data;
+				goto A;
+			}
+			else if(temp1->next==NULL)
+			{
+			    temp->next=newnode;
+	   	        temp=newnode;
+	   	        goto A;
+			}
+			else
+			{
+			 temp1=temp1->next;
+			}
+		}
+    }
+	A:
+	ptr2=ptr2->next;	
+	}
+	ptr1=ptr1->next;
+}
+return head3;
+}
+int main()
+{
+	int choice;
+	struct node*head=NULL;
+	struct node*head1=NULL;
+	struct node*head2=NULL;
+	struct node*head4=NULL;
+	struct node*head5=NULL;
+	struct node*result=NULL;
+	struct node*result1=NULL;
+	while(1)
+	{
+		printf("enter 1 for adding two polynomial function\n");
+		printf("enter 2 for multiplying two polynomial function\n");
+		printf("enter 3 for end the loop\n");
+		scanf("%d",&choice);
+		switch(choice)
+		{
+	        case 1:
+			printf("enter first polynomial function\n");
+			head1=createapoly(head1);
+        	head1=sort(head1);
+			printf("the polynomial function is: ");
+			display(head1);
+			printf("enter second polynomial function\n");
+			head2=createapoly(head2);
+	        head2=sort(head2);
+	        printf("the polynomial function is: ");
+	        display(head2);
+	        printf("polynomial function after adding ");
+	        result=add(head1,head2);
+	        display(result);
+	        break;
+	        case 2:
+	       	printf("enter first polynomial function\n");
+			head4=createapoly(head4);
+        	head4=sort(head4);
+			printf("the polynomial function is: ");
+			display(head4);
+			printf("enter second polynomial function\n");
+			head5=createapoly(head5);
+	        head5=sort(head5);
+	        printf("the polynomial function is: ");
+	        display(head5);
+	        printf("polynomial function after multiplying ");
+	        result1=multi(head4,head5);
+	        display(result1);
+	        break;
+	        case 3:exit(1);
+			break;
+            default:
+            break;	    
+		}	
+	}
+	return 0;
+}
